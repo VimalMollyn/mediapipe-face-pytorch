@@ -43,9 +43,13 @@ The environment is managed with direnv + uv (`.envrc` contains `layout uv`, Pyth
 ```sh
 direnv allow            # creates ~/.venvs/mediapipe-face-pytorch
 uv sync                 # torch, torchvision, mediapipe (for comparisons), tflite (dev, for the converter)
-python face_mesh.py photo.png          # downloads models/face_landmarker.task on first use
-python convert_to_pytorch.py           # -> models/face_landmarker_torch.pt
+python face_mesh.py photo.png          # MediaPipe reference (re-downloads models/face_landmarker.task if missing)
+python convert_to_pytorch.py           # regenerates models/face_landmarker_torch.pt from the .task
 ```
+
+Both checkpoints are committed in `models/` (`face_landmarker.task`, 3.7 MB, Google's original bundle;
+`face_landmarker_torch.pt`, 7.2 MB, the converted float32 checkpoint), so the PyTorch pipeline runs
+without the conversion step.
 
 ## Usage
 
